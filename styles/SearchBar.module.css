@@ -1,0 +1,27 @@
+.input {
+    padding: 10px 5px;
+    background-color: #ffffff6e;
+    border-radius: 10px;
+    border: solid 3px #ffffff90;
+    margin: 0 20px;
+    margin-left: 0;
+}
+.input:focus {
+    border: none;
+}
+
+.button {
+    padding: 10px;
+    background-color: rgba(112, 0, 197, 0.8);
+    border: solid 3px rgb(118, 0, 209);
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 0;
+    margin: 0;
+    transition: all ease-in-out .1s;
+}
+.button:hover {
+    letter-spacing: 2px;
+    margin-left: -3px;
+    margin-right: -3px;
+}
