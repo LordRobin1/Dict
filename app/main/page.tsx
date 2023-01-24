@@ -17,8 +17,8 @@ const Main = () => {
     }
 
     return (
-        <div>
-            <form onSubmit={e => submit(e)}>
+        <div className={styles.main}>
+            <form onSubmit={e => submit(e)} style={{margin: '10px auto'}}>
                 <input className={styles.input} type="text" onChange={e => {setInput(e.target.value); console.log(input)}} placeholder='Search...'/>            
                 <button className={styles.button} type='submit'>Go!</button>
             </form>

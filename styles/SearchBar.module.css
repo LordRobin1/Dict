@@ -1,3 +1,9 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .input {
     padding: 10px 5px;
     background-color: #ffffff6e;
@@ -7,21 +13,25 @@
     margin-left: 0;
 }
 .input:focus {
-    border: none;
+    outline: solid 3px rgb(118, 0, 209);
 }
 
 .button {
     padding: 10px;
-    background-color: rgba(112, 0, 197, 0.8);
+    background-color: rgba(112, 0, 197, .8);
     border: solid 3px rgb(118, 0, 209);
     border-radius: 10px;
     cursor: pointer;
     letter-spacing: 0;
     margin: 0;
     transition: all ease-in-out .1s;
+    transition: box-shadow, border 0s;
 }
 .button:hover {
     letter-spacing: 2px;
     margin-left: -3px;
     margin-right: -3px;
+}
+.button:active {
+    scale: .9;
 }

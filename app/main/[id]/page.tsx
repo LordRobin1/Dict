@@ -1,4 +1,5 @@
 import { Quote } from '../../../code/quotes';
+import styles from '../../../styles/Quote.module.css';
 
 interface Props  {
     input: string,
@@ -7,9 +8,9 @@ interface Props  {
 
 const Word = ({input, quote}: Props) => {
     return (
-        <div>
-            <h2>{input.charAt(0).toUpperCase() + input.slice(1)}</h2>
-            <div>
+        <div className={styles.wrapper}>
+            <h2 className={styles.heading}>{input.charAt(0).toUpperCase() + input.slice(1)}</h2>
+            <div className={styles.quote}>
                 {quote !== undefined && <Quote input={input} quote={quote}></Quote>}
             </div>
         </div>
