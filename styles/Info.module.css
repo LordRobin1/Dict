@@ -1,0 +1,10 @@
+.flex {
+    display: flex;
+    overflow-y: scroll;
+    aspect-ratio: 1;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #0000;
+    backdrop-filter: blur(2px);
+}

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Quote, quoteByKey } from '../../code/quotes';
 import styles from '../../styles/SearchBar.module.css';
-import Word from './[id]/page';
+import Word from './[search]/page';
 
 const Main = () => {
     const [input, setInput] = useState<string>('')
