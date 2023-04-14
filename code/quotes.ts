@@ -37,21 +37,26 @@ export async function quoteByKey (sq: string) : Promise<Quote> {
         if (lq.quote.length > 0) {
             return lq
         }
+    } catch (err) {
+        console.log(err)
+    }
+    try {
         let nq = await normalQuote(sq)
         return nq
     } catch (err) {
         console.log(err)
-        return {quote: [], lotr: false, char: {name: ''}}
     }
+    return {quote: [], lotr: false, char: {name: ''}}
 }
 
 const normalQuote = async (sq: string) : Promise<Quote> => {
         const res = await axios.get(`${Q_URL}/search/quotes?query=${sq}`)
         const data = res.data.results
         console.log(data)
-        if(res.data.results[0] === undefined) throw new Error(`No quote including ${sq}`);
-        const quotes = [{dialog: data[0].content}]
-        return splitQuote(sq, quotes, false, data[0]) //[`${data[0].content}`, `${data[0].author}`]
+        if(data[0] === undefined) console.log(`No quote including ${sq}`);
+        const pick = Math.floor(Math.random() * (data.length - 1));
+        const quote = [{dialog: data[pick].content}]
+        return splitQuote(sq, quote, false, data[pick]) //[`${data[0].content}`, `${data[0].author}`]
 }
 
 const character = async (id: string) : Promise<Char> => {
@@ -68,11 +73,11 @@ const character = async (id: string) : Promise<Char> => {
     }
 }
 
-const randlotrQuote = async () : Promise<void> => {
-    const num = Math.floor(Math.random() * 999)
-    const quotes = await getLOTRQuotes()//JSON.parse(await fs.readFile(path, 'utf-8'))
-    const char = await character(quotes[num].character) //this not correct syntax
-}
+// const randlotrQuote = async () : Promise<void> => {
+//     const num = Math.floor(Math.random() * 999)
+//     const quotes = await getLOTRQuotes() //JSON.parse(await fs.readFile(path, 'utf-8'))
+//     const char = await character(quotes[num].character) //this not correct syntax
+// }
 
 const getLOTRQuotes = async () : Promise<any> => {
     const res = await axios.get(`${LOTR_URL}/quote`, {
@@ -80,19 +85,13 @@ const getLOTRQuotes = async () : Promise<any> => {
             'Authorization': `Bearer ${TOKEN}`
         }
     })
-    if (res.data.docs === undefined) throw new Error("Quotes undefined")
     return res.data.docs
 }
 
 const lotrQuote = async (sq: string) : Promise<Quote> => {
     const quotes = await getLOTRQuotes()
-    if (quotes === undefined) throw new Error("quotes undefined");
+    if (quotes === undefined) console.log("quotes undefined")
     return splitQuote(sq, quotes, true, null)
-}
-let input = ''
-let str = 'asdf'
-if (str = input) {
-
 }
 
 const splitQuote = async (sq: string, quotes: any, lotr: boolean, data: any) : Promise<Quote> => {
@@ -127,9 +126,9 @@ const splitQuote = async (sq: string, quotes: any, lotr: boolean, data: any) : P
         const subStrings: string [] = createSubstrings()
         
         const styledQuote = reassembleQuote(subStrings, words, matches, matchesLength, quote)
-        let char: Char = lotr ? await character(quote.character) : {name: data.author}
+        const char: Char = lotr ? await character(quote.character) : {name: data.author}
         console.table(char)
-        return {quote: styledQuote, lotr: true, char: char}
+        return {quote: styledQuote, lotr: lotr, char: char}
         //if(count === end) return
         //count++
         
