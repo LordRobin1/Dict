@@ -1,19 +1,28 @@
 'use client';
+import axios from 'axios';
 import { useState } from 'react';
 import { Quote, quoteByKey } from '../../code/quotes';
 import styles from '../../styles/SearchBar.module.css';
+import Info from './[data]/page';
 import Word from './[search]/page';
 
 const Main = () => {
     const [input, setInput] = useState<string>('')
-    // const [search, setSearch] = useState<boolean>(false)
     const [quote, setQuote] = useState<Quote>()
+
+    const [info, setInfo] = useState([]);
+    const wordURL = 'https://api.dictionaryapi.dev/api/v2/entries/en/'
+
     const submit = async (e: any) => {
         e.preventDefault()
-        // setSearch(true)
+        if (input === '') return
+
         let q = await quoteByKey(input)
         console.log(q)
         setQuote(q)
+        const res = await axios.get(`${wordURL}${input}`)
+        console.table(res.data)
+        checkDictRes(res.data) && setInfo(res.data)
     }
 
     return (
@@ -23,8 +32,13 @@ const Main = () => {
                 <button className={styles.button} type='submit'>Go!</button>
             </form>
             <Word input={input} quote={quote as Quote}></Word>
+            <Info results={info}></Info>
         </div>
   )
 }
 
 export default Main
+
+const checkDictRes = (res: any) => {
+    return res.title === (null || undefined)
+}

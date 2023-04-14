@@ -27,13 +27,13 @@ const Quote = ({input, quote}: Props) => {
             {(quote.quote as string[]).map(str => {
                 if (str.toLowerCase() === input.toLowerCase()) {
                     key++
-                    return <span style={{fontWeight: '1000',fontSize: '18px', color: '#21cdef'}} key={key}>{str}</span>
+                    return <span style={{fontWeight: 'bold',fontSize: '20px', color: '#21cdef'}} key={key}>{str}</span>
                 } else {
                     key++
                     return <span key={key}>{str}</span>
                 }
             })}
-            <p>- {author === '' ? 'ohno' : author}</p>
+            <p>- {author === '' ? 'No one, i guess' : author}</p>
         </div>
     )
 }
