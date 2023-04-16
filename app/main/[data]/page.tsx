@@ -1,15 +1,31 @@
-import { JsxElement } from "typescript";
+import { Data } from '../../../code/definitions';
 import style from "../../../styles/Info.module.css";
 
-const Info = (results: any) => {
+interface Props {
+  word: string
+  firstSearch: boolean
+  results: Data
+}
+
+const Info = ({firstSearch, word, results}: Props) => {
   let k = 0
   let l = 0
   let m = 0
   let n = 0
   let defs: JSX.Element[] = []
 
+  if (results.length < 1) {
+    defs.push(
+      <div>
+          <h3>No definitions found</h3>
+          <h4>/nəʊ ˌdɛfɪˈnɪʃ(ə)nz faʊnd/</h4>
+      </div>
+    )
+  }
+
   for (let i = 0; i < results.length; i++) {
     const block = results[i];
+
     const blockElement = (
       <div key={i}>
         <h3>{block.word}</h3>
@@ -20,32 +36,34 @@ const Info = (results: any) => {
             return (
               <div key={k}>
                 <h5>{meaning.partOfSpeech}</h5>
-                {meaning.definitions.map((def: any) => {
-                  l++
-                  return (
-                    <div key={l}>
-                      <p>{def.definition}</p>
-                    </div>
-                  )
-                })}
+                <ul>
+                  {meaning.definitions.map((def: any) => {
+                    l++
+                    return (
+                        <li key={l}>{def.definition}</li>
+                    )
+                  })}
+                </ul>
+
                 <h6>Synonyms:</h6>
-                {meaning.synonyms.map((syn: any) => {
-                  m++
-                  return (
-                    <div key={m}>
-                      <p>{syn}</p>
-                    </div>
-                  )
-                })}
+                <ul>
+                  {meaning.synonyms.map((syn: any) => {
+                    m++
+                    return (
+                        <li key={m}>{syn}</li>
+                    )
+                  })}
+                </ul>
+
                 <h6>Antonyms:</h6>
-                {meaning.antonyms.map((ant: any) => {
-                  m++
-                  return (
-                    <div key={m}>
-                      <p>{ant}</p>
-                    </div>
-                  )
-                })}
+                <ul>
+                  {meaning.antonyms.map((ant: any) => {
+                    n++
+                    return (
+                        <li key={n}>{ant}</li>
+                    )
+                  })}
+                </ul>
               </div>
           )})}
         </div>
@@ -54,13 +72,11 @@ const Info = (results: any) => {
     defs.push(blockElement)
   }
 
-  console.table(defs)
-
   return(
-    <div className={style.flex}>
-      {defs.map((def: JSX.Element) => {
+    <div className={style.def_wrapper}>
+      {(!firstSearch) && defs.map((def: JSX.Element) => {
         n++
-        return (<div key={n}>{def}</div>)
+        return (<div className={style.def} key={n}>{def}</div>)
       })}
     </div>
   )
